@@ -47,6 +47,10 @@ namespace OrdersApi.Controllers
                 Id = createdOrder.Id,
                 OrderId = createdOrder.OrderId,
                 TotalAmount = createdOrder.OrderItems.Sum(i => i.Quantity * i.Price)
+            }, context =>
+            {
+                context.Headers.Set("my-custom-header", "value");
+                context.TimeToLive = TimeSpan.FromSeconds(30);
             });
 
             return CreatedAtAction("GetOrder", new { id = createdOrder.Id }, createdOrder);

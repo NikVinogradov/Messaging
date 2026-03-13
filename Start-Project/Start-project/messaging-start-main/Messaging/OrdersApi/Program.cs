@@ -45,12 +45,12 @@ namespace OrdersApi
                 x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("hellos", false));
 
                 //Several ways to register consumers
-                x.AddConsumer<OrderCreatedConsumer>();
+                //x.AddConsumer<OrderCreatedConsumer, OrderCreatedConsumerDefinition>();
 
                 //var entryAssembly = Assembly.GetEntryAssembly();
                 //x.AddConsumers(entryAssembly);
 
-                //x.AddConsumer(typeof(OrderCreatedConsumer));
+                x.AddConsumer(typeof(OrderCreatedConsumer));
 
                 x.UsingRabbitMq((context, cfg) =>
                 {
@@ -60,6 +60,7 @@ namespace OrdersApi
                         h.Password("guest");
                     });
 
+                    //comment because i want to use OrderCreatedConsumerDefinition
                     cfg.ReceiveEndpoint("order-created", e =>
                     {
                         e.ConfigureConsumer<OrderCreatedConsumer>(context);
